@@ -1,0 +1,157 @@
+﻿<script type="text/javascript" src="../../jspdf.js"></script>
+<script language="javascript">
+  
+
+
+    ///////////////PDF/////////////////////
+
+    function htmltopdf() {
+        var pdf = new jsPDF('p', 'pt', 'letter');
+        source = $('#PrintDiv')[0]; //table Id
+        specialElementHandlers = {
+            '#bypassme': function (element, renderer) {
+                return true
+            }
+        };
+        margins = { //table margins and width
+            top: 80,
+            bottom: 60,
+            left: 40,
+            width: 522
+        };
+        pdf.fromHTML(
+        source,
+        margins.left,
+        margins.top, {
+            'width': margins.width,
+            'elementHandlers': specialElementHandlers
+        },
+
+        function (dispose) {
+            pdf.save('Data.pdf'); //Filename
+        }, margins);
+    }
+
+    ///////////////////////////Excel//////////////////////////
+    var tableToExcel = (function () {
+        var uri = 'data:application/vnd.ms-excel;base64,', template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>', base64 = function (
+                s) {
+            return window.btoa(unescape(encodeURIComponent(s)))
+        }, format = function (s, c) {
+            return s.replace(/{(\w+)}/g, function (m, p) {
+                return c[p];
+            })
+        }
+        return function (table, name) {
+            if (!table.nodeType)
+                table = document.getElementById(table);
+            var cln = table.cloneNode(true);
+            var paras = cln.getElementsByClassName('ignore');
+
+            while (paras[0]) {
+                paras[0].parentNode.removeChild(paras[0]);
+            }
+            var ctx = {
+                worksheet: name || 'Worksheet',
+                table: cln.innerHTML
+            }
+            window.location.href = uri + base64(format(template, ctx))
+        }
+    })();
+</script>
+
+
+
+
+@model IEnumerable<SystemGestionCourier.Models.Courrier>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div id="PrintDiv">
+    <asp:DataList ID="DataList1" runat="server">
+        <table id="exportPDF" border="1" style="border-collapse: collapse;" class="table table-striped">
+            <tr id="bypassme">
+                <th>
+                    @Html.DisplayNameFor(model => model.Sujet)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Expiditeur)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Destinataire)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Message)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CourDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th class="ignore"></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sujet)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Expiditeur)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Destinataire)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Message)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td class="ignore">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </asp:DataList>
+</div>
+
+<button onclick="javascript:htmltopdf();">Export PDF</button>
+<input type="button" onclick="tableToExcel('PrintDiv', 'W3C Example Table')" value="Export to Excel" />
+
+<h2>Import from Excel</h2>
+<div>
+    @using (Html.BeginForm("Index", "Courrier", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input name="file" type="file" /><input type="submit" value="Importer" title="Upload file" />
+    }
+</div>
+
+<h2>Import from XML</h2>
+<div>
+    @using (Html.BeginForm("Uploadxml", "Courrier", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input name="file" type="file" /><input type="submit" value="Importer" title="Upload file" />
+    }
+</div>
+ @Html.ActionLink("Print My Report", "CrystalReport1", "Reports") 
+<div>
+
+</div>
+

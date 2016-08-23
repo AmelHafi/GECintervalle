@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<ArrayOfCourrier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Courrier>
+    <Sujet>test2</Sujet>
+    <Expiditeur></Expiditeur>
+    <Destinataire>a.a@gmail.com</Destinataire>
+    <Message>contenu1</Message>
+    <CourDate>01/09/2003</CourDate>
+    <Type>arrivee</Type>
+    
+  </Courrier>
+  
+</ArrayOfCourrier>

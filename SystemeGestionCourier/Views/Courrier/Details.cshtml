@@ -1,0 +1,66 @@
+﻿@model SystemGestionCourier.Models.Courrier
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Courrier</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Sujet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sujet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Expiditeur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Expiditeur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Destinataire)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Destinataire)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Message)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Message)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
